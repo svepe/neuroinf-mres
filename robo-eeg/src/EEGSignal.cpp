@@ -30,7 +30,7 @@ void EEGSignal::AddData(double* new_data, int new_data_len)
 		data.pop_front();
 	}
 
-	for(int i = 0; i < new_data_len; ++i)
+	for(int i = new_data_len - 1; i >= 0; --i)
 	{
 		data.push_back(new_data[i]);
 		sum += data.back();

@@ -24,12 +24,7 @@ void EEGLogger::InitLog(const std::string& task_name, const std::vector<EEGSigna
 	for(size_t s = 0; s < sig.size(); ++s)
 		ofs << sig[s].GetChannelID() << " " <<  sig[s].GetChannelName() << " ";
 	ofs << std::endl;
-}
-
-void EEGLogger::LogEvent(const std::string& type, const std::string& data, std::ofstream& ofs)
-{
-	ofs << GetTimestampNow() << " ";
-	ofs << "Event " << type << " " << data << std::endl;
+	ofs.precision(10);
 }
 
 void EEGLogger::LogEEG(int n_samples, const std::vector<EEGSignal>& sig, std::ofstream& ofs)
@@ -44,6 +39,20 @@ void EEGLogger::LogEEG(int n_samples, const std::vector<EEGSignal>& sig, std::of
 		ofs << std::endl;
 	}
 }
+
+void EEGLogger::LogEvent(const std::string& type, const std::string& data, std::ofstream& ofs)
+{
+	ofs << GetTimestampNow() << " ";
+	ofs << "Event " << type << " " << data << std::endl;
+}
+
+void EEGLogger::LogEvent(const std::string& type, const int data, std::ofstream& ofs)
+{
+	ofs << GetTimestampNow() << " ";
+	ofs << "Event " << type << " " << data << std::endl;
+}
+
+
 
 long long EEGLogger::GetTimestampNow()
 {

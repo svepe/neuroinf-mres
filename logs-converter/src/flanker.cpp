@@ -23,8 +23,7 @@ const int TRIALS = 40;
 
 int sig_len = 1000;
 std::vector<EEGSignal> signals {
-	EEGSignal("ED_TIMESTAMP", ED_TIMESTAMP, sig_len),
-	EEGSignal("ED_COUNTER", ED_COUNTER, sig_len),
+	// EEGSignal("ED_COUNTER", ED_COUNTER, sig_len),
 	EEGSignal("ED_AF3", ED_AF3, sig_len),
 	EEGSignal("ED_F7", ED_F7, sig_len),
 	EEGSignal("ED_F3", ED_F3, sig_len),
@@ -39,8 +38,9 @@ std::vector<EEGSignal> signals {
 	EEGSignal("ED_F4", ED_F4, sig_len),
 	EEGSignal("ED_F8", ED_F8, sig_len),
 	EEGSignal("ED_AF4", ED_AF4, sig_len),
-	EEGSignal("ED_GYROX", ED_GYROX, sig_len),
-	EEGSignal("ED_GYROY", ED_GYROY, sig_len),
+	// EEGSignal("ED_GYROX", ED_GYROX, sig_len),
+	// EEGSignal("ED_GYROY", ED_GYROY, sig_len),
+	// EEGSignal("ED_TIMESTAMP", ED_TIMESTAMP, sig_len),
 	// EEGSignal("ED_FUNC_ID", ED_FUNC_ID, sig_len),
 	// EEGSignal("ED_FUNC_VALUE", ED_FUNC_VALUE, sig_len),
 	// EEGSignal("ED_MARKER", ED_MARKER, sig_len),
@@ -81,7 +81,7 @@ int main()
 	// std::cout << "[flanker.cpp]  " << EEGLogger::GetTimestampNow() << std::endl;
 
 	ofstream ofs;
-	EEGLogger::Open("/home/svetlin/Desktop/flanker.log", ofs);
+	EEGLogger::Open("/home/svetlin/Desktop/exp.log", ofs);
 	EEGLogger::InitLog("flanker", signals, ofs);
 
 	char key;
