@@ -19,8 +19,6 @@ using std::chrono::system_clock;
 #include <robo-eeg/EEGSignal.h>
 #include <robo-eeg/EEGLogger.h>
 
-const int TRIALS = 40;
-
 int sig_len = 1000;
 std::vector<EEGSignal> signals {
 	EEGSignal("ED_TIMESTAMP", ED_TIMESTAMP, sig_len),
@@ -75,18 +73,24 @@ void PutCentredText(const std::string& text, cv::Mat& img)
 	        2);
 }
 
-int main()
+int main(int argc, char const *argv[])
 {
+	if(argc != 3)
+	{
+		std::cout << "Usage: flanker [#trials] [log-filename] " << std::endl;
+		return 1;
+	}
+
+	int TRIALS = 0;
+	sscanf(argv[1], "%d", &TRIALS);
+
 	srand(time(NULL));
-	// std::cout << "[flanker.cpp]  " << EEGLogger::GetTimestampNow() << std::endl;
 
 	ofstream ofs;
-	EEGLogger::Open("/home/svetlin/Desktop/flanker.log", ofs);
+	EEGLogger::Open(argv[2], ofs);
 	EEGLogger::InitLog("flanker", signals, ofs);
 
 	char key;
-	// double data[2];
-	// int i = 0;
 
 	if(!Emotiv::Connect())
 	{
@@ -98,9 +102,9 @@ int main()
 
 	cv::Mat screen = cv::Mat::zeros(1000, 1920, CV_8UC3);
 
-	duration<int, std::milli> fixation_dtn(500);
+	duration<int, std::milli> fixation_dtn(500); //500
 	duration<int, std::milli> stimulus_dtn(100);
-	duration<int, std::milli> waiting_dtn(1000);
+	duration<int, std::milli> waiting_dtn(500); //1000
 	duration<int, std::milli> resting_dtn(500);
 
 	enum ExperimentState {FIXATION = 0, STIMULUS, WAITING, RESTING};
@@ -148,8 +152,6 @@ int main()
 			{
 				if(!update) break;
 				update = false;
-
-				++n_trials;
 
 				screen = cv::Mat::zeros(1000, 1920, CV_8UC3);
 				PutCentredText("+", screen);
@@ -200,6 +202,8 @@ int main()
 
 				screen = cv::Mat::zeros(1000, 1920, CV_8UC3);
 				next_tp = curr_tp + resting_dtn;
+
+				++n_trials;
 				break;
 		}
 

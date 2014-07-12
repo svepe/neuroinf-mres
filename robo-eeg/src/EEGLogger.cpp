@@ -22,7 +22,11 @@ void EEGLogger::InitLog(const std::string& task_name, const std::vector<EEGSigna
 	ofs << "Description ";
 	ofs << task_name << " ";
 	for(size_t s = 0; s < sig.size(); ++s)
-		ofs << sig[s].GetChannelID() << " " <<  sig[s].GetChannelName() << " ";
+	{
+		ofs << sig[s].GetChannelID() << " " <<  sig[s].GetChannelName();
+		if(s != sig.size() - 1)
+			ofs << " ";
+	}
 	ofs << std::endl;
 	ofs.precision(10);
 }
@@ -35,7 +39,11 @@ void EEGLogger::LogEEG(int n_samples, const std::vector<EEGSignal>& sig, std::of
 	for(int n = 0; n < n_samples; ++n)
 	{
 		for(size_t s = 0; s < sig.size(); ++s)
-			ofs << sig[s].GetSampleRev(n) << " ";
+		{
+			ofs << sig[s].GetSampleRev(n);
+			if(s != sig.size() - 1)
+				ofs << " ";
+		}
 		ofs << std::endl;
 	}
 }
